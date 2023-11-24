@@ -23,4 +23,5 @@ export interface User {
   hobbies?: string[];
   address: Address;
   orders?: Orders[];
+  isDelete: boolean;
 }

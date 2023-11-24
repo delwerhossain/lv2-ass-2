@@ -7,7 +7,7 @@ const createUserIntoDB = async (user: User) => {
 };
 
 const getAllUserIntoDB = async () => {
-  const result = await UserModel.find();
+  const result = await UserModel.find({isDelete:false});
   return result;
 };
 

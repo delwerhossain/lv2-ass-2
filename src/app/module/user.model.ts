@@ -86,6 +86,10 @@ const userSchema = new Schema<User>({
   orders: {
     type: [ordersSchema],
   },
+  isDelete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const UserModel = model<User>('User', userSchema);

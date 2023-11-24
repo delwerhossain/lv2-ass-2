@@ -7,24 +7,30 @@ const createUserIntoDB = async (user: User) => {
 };
 
 const getAllUserIntoDB = async () => {
-  const result = await UserModel.find();
+  const result = await UserModel.find({ isDelete: false });
   // { isDelete: false }
   return result;
 };
 const getSingleUserIntoDB = async (userId: number) => {
-  const result = await UserModel.findOne({ userId });
+  const result = await UserModel.findOne({ isDelete: false, userId });
   return result;
 };
 const updateUserIntoDB = async (userId: number, data: unknown) => {
-  console.log({userId, data});
   const result = await UserModel.updateOne({ userId: userId }, { $set: data });
   return result;
 };
-
+const deleteUserIntoDB = async (userId: number) => {
+  const result = await UserModel.updateOne(
+    { userId: userId },
+    { $set: { isDelete: true } },
+  );
+  return result;
+};
 
 export const userServices = {
   createUserIntoDB,
   getAllUserIntoDB,
   getSingleUserIntoDB,
   updateUserIntoDB,
+  deleteUserIntoDB,
 };

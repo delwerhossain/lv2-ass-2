@@ -54,6 +54,7 @@ const userSchema = new Schema<User>({
   username: {
     type: String,
     unique: true,
+    trim: true,
     required: [true, 'username is required'],
   },
   password: {

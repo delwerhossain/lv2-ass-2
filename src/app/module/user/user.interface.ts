@@ -19,9 +19,9 @@ export interface User {
   fullName: UserName;
   age: number;
   email: string;
-  isActive?: boolean;
-  hobbies?: string[];
+  isActive?: boolean | undefined;
+  hobbies?: string[] | undefined;
   address: Address;
-  orders?: Orders[];
+  orders?: Orders[] | undefined;
   isDelete: boolean;
 }

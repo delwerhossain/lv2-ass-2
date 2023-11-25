@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 // Define Zod schemas for nested structures
 export const nameSchema = z.object({
   firstName: z.string().min(1).max(25),

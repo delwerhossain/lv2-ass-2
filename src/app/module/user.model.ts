@@ -62,6 +62,7 @@ const userSchema = new Schema<TUser>({
   password: {
     type: String,
     required: [true, 'password is required'],
+    select: false,
   },
   fullName: {
     type: nameSchema,
@@ -92,6 +93,7 @@ const userSchema = new Schema<TUser>({
   isDelete: {
     type: Boolean,
     default: false,
+    select: false,
   },
 });
 
@@ -113,6 +115,22 @@ userSchema.pre('findOne', function (next) {
   this.findOne({ isDelete: { $ne: true } });
   next();
 });
+
+// userSchema.post('find', function (docs, next) {
+//   // Exclude isDelete and password fields from each document in the response
+//   docs.forEach((doc) => {
+//     doc.isDelete = undefined;
+//     doc.password = undefined;
+//   });
+//   next();
+// });
+
+// userSchema.post('findOne', function (doc, next) {
+//   // Exclude isDelete and password fields from the single document in the response
+//   doc.isDelete = undefined;
+//   doc.password = undefined;
+//   next();
+// });
 userSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDelete: { $ne: true } } });
   next();

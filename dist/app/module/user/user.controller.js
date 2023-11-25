@@ -23,11 +23,15 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -36,15 +40,19 @@ const getAllUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield user_service_1.userServices.getAllUserIntoDB();
         return res.status(200).json({
             success: true,
-            message: 'User created successfully',
+            message: 'Users fetched successfully!',
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -54,15 +62,19 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const result = yield user_service_1.userServices.getSingleUserIntoDB(userId);
         return res.status(200).json({
             success: true,
-            message: 'User created successfully',
+            message: 'Users fetched successfully!',
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -77,11 +89,15 @@ const updateUserData = (req, res) => __awaiter(void 0, void 0, void 0, function*
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -96,11 +112,15 @@ const orderUserDataAdd = (req, res) => __awaiter(void 0, void 0, void 0, functio
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -117,15 +137,19 @@ const getUserOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         return res.status(200).json({
             success: true,
-            message: 'Add Orders successfully',
+            message: ' Order fetched successfully',
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -142,15 +166,19 @@ const totalPriceUserOrder = (req, res) => __awaiter(void 0, void 0, void 0, func
         }
         return res.status(200).json({
             success: true,
-            message: 'Total order price calculated successfully',
+            message: 'Total price calculated successfully!',
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'Error calculating total order price',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });
@@ -160,15 +188,19 @@ const deleteUserData = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const result = yield user_service_1.userServices.deleteUserIntoDB(userId);
         return res.status(200).json({
             success: true,
-            message: 'User delete successfully',
+            message: 'User delete successfully!',
             data: result,
         });
     }
-    catch (error) {
+    catch (err) {
         return res.status(500).json({
             success: false,
             message: 'error , something went wrong',
-            error,
+            error: {
+                code: 404,
+                description: 'User not found!',
+            },
+            fullError: err,
         });
     }
 });

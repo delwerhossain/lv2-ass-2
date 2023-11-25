@@ -13,11 +13,15 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -27,14 +31,18 @@ const getAllUser = async (req: Request, res: Response) => {
     const result = await userServices.getAllUserIntoDB();
     return res.status(200).json({
       success: true,
-      message: 'User created successfully',
+      message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -45,14 +53,18 @@ const getSingleUser = async (req: Request, res: Response) => {
     const result = await userServices.getSingleUserIntoDB(userId);
     return res.status(200).json({
       success: true,
-      message: 'User created successfully',
+      message: 'Users fetched successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -67,11 +79,15 @@ const updateUserData = async (req: Request, res: Response) => {
       message: 'User update successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -85,11 +101,15 @@ const orderUserDataAdd = async (req: Request, res: Response) => {
       message: 'Add Orders successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -106,14 +126,18 @@ const getUserOrder = async (req: Request, res: Response) => {
     }
     return res.status(200).json({
       success: true,
-      message: 'Add Orders successfully',
+      message: ' Order fetched successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -132,14 +156,18 @@ const totalPriceUserOrder = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Total order price calculated successfully',
+      message: 'Total price calculated successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'Error calculating total order price',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };
@@ -149,14 +177,18 @@ const deleteUserData = async (req: Request, res: Response) => {
     const result = await userServices.deleteUserIntoDB(userId);
     return res.status(200).json({
       success: true,
-      message: 'User delete successfully',
+      message: 'User delete successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
-      error,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+      fullError: err,
     });
   }
 };

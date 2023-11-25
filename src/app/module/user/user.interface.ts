@@ -1,27 +1,27 @@
-export type UserName = {
+export type TUserName = {
   firstName: string;
   lastName: string;
 };
-export type Address = {
+export type TAddress = {
   street: string;
   city: string;
   country: string;
 };
-export type Orders = {
+export type TOrders = {
   productName: string;
   price: number;
   quantity: number;
 };
-export interface User {
+export interface TUser {
   userId: number;
   username: string;
   password: string;
-  fullName: UserName;
+  fullName: TUserName;
   age: number;
   email: string;
   isActive?: boolean | undefined;
   hobbies?: string[] | undefined;
-  address: Address;
-  orders?: Orders[] | undefined;
+  address: TAddress;
+  orders?: TOrders[] | undefined;
   isDelete: boolean;
 }

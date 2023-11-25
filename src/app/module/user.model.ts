@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { Address, Orders, User, UserName } from './user/user.interface';
+import { TAddress, TOrders, TUser, TUserName } from './user/user.interface';
+import config from '../config';
+import bcrypt from 'bcrypt';
 
-const nameSchema = new Schema<UserName>({
+const nameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     trim: true,
@@ -16,7 +18,7 @@ const nameSchema = new Schema<UserName>({
   },
 });
 
-const addressSchema = new Schema<Address>({
+const addressSchema = new Schema<TAddress>({
   street: {
     type: String,
     required: [true, 'street is required'],
@@ -30,7 +32,7 @@ const addressSchema = new Schema<Address>({
     required: [true, 'country is required'],
   },
 });
-const ordersSchema = new Schema<Orders>({
+const ordersSchema = new Schema<TOrders>({
   productName: {
     type: String,
     required: [true, 'product Name is required'],
@@ -45,7 +47,7 @@ const ordersSchema = new Schema<Orders>({
   },
 });
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<TUser>({
   userId: {
     type: Number,
     unique: true,
@@ -93,4 +95,32 @@ const userSchema = new Schema<User>({
   },
 });
 
-export const UserModel = model<User>('User', userSchema);
+// Query Middleware
+
+userSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+userSchema.pre('find', function (next) {
+  this.find({ isDelete: { $ne: true } });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.findOne({ isDelete: { $ne: true } });
+  next();
+});
+userSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDelete: { $ne: true } } });
+  next();
+});
+
+userSchema.post('save', async function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+export const UserModel = model<TUser>('User', userSchema);

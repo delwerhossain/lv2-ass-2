@@ -1,24 +1,24 @@
 import { UserModel } from '../user.model';
-import { Orders, User } from './user.interface';
+import { TOrders, TUser } from './user.interface';
 
-const createUserIntoDB = async (user: User) => {
+const createUserIntoDB = async (user: TUser) => {
   const result = await UserModel.create(user);
   return result;
 };
 
 const getAllUserIntoDB = async () => {
-  const result = await UserModel.find({ isDelete: false });
+  const result = await UserModel.find();
   return result;
 };
 const getSingleUserIntoDB = async (userId: number) => {
-  const result = await UserModel.findOne({ isDelete: false, userId });
+  const result = await UserModel.findOne({ userId });
   return result;
 };
-const updateUserIntoDB = async (userId: number, data: Partial<User>) => {
+const updateUserIntoDB = async (userId: number, data: Partial<TUser>) => {
   const result = await UserModel.updateOne({ userId: userId }, { $set: data });
   return result;
 };
-const addOrderUserIntoDB = async (userId: number, data: Orders) => {
+const addOrderUserIntoDB = async (userId: number, data: TOrders) => {
   const result = await UserModel.updateOne(
     { userId: userId },
     { $push: { orders: data } },
@@ -30,7 +30,6 @@ const getUserOrderIntoDB = async (userId: number) => {
     {
       $match: {
         userId,
-        isDelete: false,
       },
     },
     {
@@ -49,7 +48,7 @@ const getUserOrderIntoDB = async (userId: number) => {
 
 const totalOrderPriceIntoDB = async (userId: number) => {
   const orderData = await UserModel.aggregate([
-    { $match: { userId, isDelete: false } },
+    { $match: { userId } },
     {
       $unwind: '$orders',
     },

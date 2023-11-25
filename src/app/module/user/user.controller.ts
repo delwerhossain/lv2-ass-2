@@ -8,13 +8,13 @@ const createUser = async (req: Request, res: Response) => {
     const user = req.body;
     const zodParsedData = validateUserSchema.parse(user) as User;
     const result = await userServices.createUserIntoDB(zodParsedData);
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'User created successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -25,13 +25,13 @@ const createUser = async (req: Request, res: Response) => {
 const getAllUser = async (req: Request, res: Response) => {
   try {
     const result = await userServices.getAllUserIntoDB();
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'User created successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -43,13 +43,13 @@ const getSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const result = await userServices.getSingleUserIntoDB(userId);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'User created successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -62,13 +62,13 @@ const updateUserData = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const userData = req.body;
     const result = await userServices.updateUserIntoDB(userId, userData);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'User update successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -80,13 +80,13 @@ const orderUserDataAdd = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const orderData = req.body;
     const result = await userServices.addOrderUserIntoDB(userId, orderData);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Add Orders successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -98,19 +98,19 @@ const getUserOrder = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const result = await userServices.getUserOrderIntoDB(userId);
     if (result === null) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: 'user not Found',
         data: null,
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Add Orders successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,
@@ -121,22 +121,24 @@ const totalPriceUserOrder = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const result = await userServices.totalOrderPriceIntoDB(userId);
+
     if (result === null) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
-        message: 'user not Found',
+        message: 'User not found',
         data: null,
       });
     }
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
-      message: 'Add Orders successfully',
+      message: 'Total order price calculated successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: 'error , something went wrong',
+      message: 'Error calculating total order price',
       error,
     });
   }
@@ -145,13 +147,13 @@ const deleteUserData = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const result = await userServices.deleteUserIntoDB(userId);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'User delete successfully',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'error , something went wrong',
       error,

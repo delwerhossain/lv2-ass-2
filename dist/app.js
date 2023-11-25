@@ -11,4 +11,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.text());
 app.use((0, cors_1.default)());
 app.use('/api/users', user_route_1.userRoute);
+app.get('/', (req, res) => {
+    res.send('working Level 2 Assessment 2');
+});
 exports.default = app;

@@ -8,7 +8,7 @@ app.use(cors());
 
 app.use('/api/users', userRoute);
 app.get('/', (req: Request, res: Response) => {
-    res.send('working Level 2 Assessment 2')
-})
+  res.send('working Level 2 Assessment 2');
+});
 
 export default app;

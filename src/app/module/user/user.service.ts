@@ -27,6 +27,14 @@ const addOrderUserIntoDB = async (userId: number, data: Orders) => {
   );
   return result;
 };
+const getUserOrderIntoDB = async (userId: number) => {
+  const user = await UserModel.findOne({ isDelete: false, userId });
+  if (!user) {
+    return null;
+  }
+  const result = user?.orders || [];
+  return result;
+};
 const deleteUserIntoDB = async (userId: number) => {
   const result = await UserModel.updateOne(
     { userId: userId },
@@ -42,4 +50,5 @@ export const userServices = {
   updateUserIntoDB,
   deleteUserIntoDB,
   addOrderUserIntoDB,
+  getUserOrderIntoDB,
 };

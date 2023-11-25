@@ -79,8 +79,32 @@ const orderUserDataAdd = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const orderData = req.body;
-    console.log({userId, orderData});
+    console.log({ userId, orderData });
     const result = await userServices.addOrderUserIntoDB(userId, orderData);
+    res.status(200).json({
+      success: true,
+      message: 'Add Orders successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'error , something went wrong',
+      error,
+    });
+  }
+};
+const getUserOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await userServices.getUserOrderIntoDB(userId);
+    if (result === null) {
+      res.status(404).json({
+        success: false,
+        message: 'user not Found',
+        data: null,
+      });
+    }
     res.status(200).json({
       success: true,
       message: 'Add Orders successfully',
@@ -119,4 +143,5 @@ export const userControllers = {
   updateUserData,
   deleteUserData,
   orderUserDataAdd,
+  getUserOrder,
 };

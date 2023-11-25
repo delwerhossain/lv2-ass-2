@@ -28,12 +28,25 @@ const addOrderUserIntoDB = async (userId: number, data: Orders) => {
   return result;
 };
 const getUserOrderIntoDB = async (userId: number) => {
-  const user = await UserModel.findOne({ isDelete: false, userId });
-  if (!user) {
+  const orders = await UserModel.aggregate([
+    {
+      $match: {
+        userId,
+        isDelete: false,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        orders: 1,
+      },
+    },
+  ]);
+
+  if (orders.length === 0) {
     return null;
   }
-  const result = user?.orders || [];
-  return result;
+  return orders;
 };
 const deleteUserIntoDB = async (userId: number) => {
   const result = await UserModel.updateOne(

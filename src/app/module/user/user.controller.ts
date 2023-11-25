@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import { validateUserSchema } from './user.validation';
+import { User } from './user.interface';
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const zodParsedData = validateUserSchema.parse(user);
+    const zodParsedData = validateUserSchema.parse(user) as User;
     const result = await userServices.createUserIntoDB(zodParsedData);
     res.status(201).json({
       success: true,
@@ -74,6 +75,25 @@ const updateUserData = async (req: Request, res: Response) => {
     });
   }
 };
+const orderUserDataAdd = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const orderData = req.body;
+    console.log({userId, orderData});
+    const result = await userServices.addOrderUserIntoDB(userId, orderData);
+    res.status(200).json({
+      success: true,
+      message: 'Add Orders successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'error , something went wrong',
+      error,
+    });
+  }
+};
 const deleteUserData = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
@@ -98,4 +118,5 @@ export const userControllers = {
   getSingleUser,
   updateUserData,
   deleteUserData,
+  orderUserDataAdd,
 };

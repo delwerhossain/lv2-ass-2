@@ -3,10 +3,13 @@ import { userControllers } from './user.controller';
 
 const router = express.Router();
 
-router.post('/', userControllers.createUser);
 router.get('/', userControllers.getAllUser);
 router.get('/:userId', userControllers.getSingleUser);
-router.post('/:userId', userControllers.updateUserData);
+router.post('/', userControllers.createUser);
+router.put('/:userId', userControllers.updateUserData);
+// router.get('/:userId/orders', userControllers.orderUserDataAdd);
+router.put('/:userId/orders', userControllers.orderUserDataAdd);
+// router.get('/:userId/orders/total-price', userControllers.orderUserDataAdd);
 router.delete('/:userId', userControllers.deleteUserData);
 
 export const userRoute = router;

@@ -8,7 +8,6 @@ const createUserIntoDB = async (user: User) => {
 
 const getAllUserIntoDB = async () => {
   const result = await UserModel.find({ isDelete: false });
-  // { isDelete: false }
   return result;
 };
 const getSingleUserIntoDB = async (userId: number) => {
@@ -20,7 +19,6 @@ const updateUserIntoDB = async (userId: number, data: Partial<User>) => {
   return result;
 };
 const addOrderUserIntoDB = async (userId: number, data: Orders) => {
-  console.log({ userId, data });
   const result = await UserModel.updateOne(
     { userId: userId },
     { $push: { orders: data } },
@@ -48,6 +46,36 @@ const getUserOrderIntoDB = async (userId: number) => {
   }
   return orders;
 };
+
+const totalOrderPriceIntoDB = async (userId: number) => {
+  const orderData = await UserModel.aggregate([
+    { $match: { userId, isDelete: false } },
+    {
+      $unwind: '$orders',
+    },
+    {
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: {
+            $multiply: ['$orders.price', '$orders.quantity'],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        totalPrice: 1,
+      },
+    },
+  ]);
+  if (orderData.length === 0) {
+    return null;
+  }
+  return orderData;
+};
+
 const deleteUserIntoDB = async (userId: number) => {
   const result = await UserModel.updateOne(
     { userId: userId },
@@ -64,4 +92,5 @@ export const userServices = {
   deleteUserIntoDB,
   addOrderUserIntoDB,
   getUserOrderIntoDB,
+  totalOrderPriceIntoDB,
 };
